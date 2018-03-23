@@ -22,7 +22,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hourly_forecast);
+        setContentView(R.layout.fragment_hourly_forecast);
 
         mRecyclerView = findViewById(R.id.reyclerView);
 

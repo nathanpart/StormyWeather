@@ -21,7 +21,7 @@ public class DayAdapter extends BaseAdapter {
 
     public DayAdapter(Context context, Day[] days) {
         mContext = context;
-        mDays = days;
+        mDays = (days == null) ? new Day[0] : days;
     }
 
     @Override
@@ -70,6 +70,12 @@ public class DayAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+
+    public void updateData(Day[] dailyForecasts) {
+        mDays = dailyForecasts;
+        notifyDataSetChanged();
     }
 
     private static class ViewHolder {

@@ -26,7 +26,7 @@ public class DailyForecastActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_forecast);
+        setContentView(R.layout.fragment_daily_forecast);
 
         mListView = findViewById(android.R.id.list);
         mEmptyTextView = findViewById(android.R.id.empty);

@@ -22,7 +22,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
 
     public HourAdapter(Context context, Hour[] hours) {
         mContext = context;
-        mHours = hours;
+        mHours = (hours != null) ? hours : new Hour[0];
     }
 
     @Override
@@ -41,6 +41,11 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     @Override
     public int getItemCount() {
         return mHours.length;
+    }
+
+    public void updateData(Hour[] hours) {
+        mHours = hours;
+        notifyDataSetChanged();
     }
 
     public class HourViewHolder extends RecyclerView.ViewHolder
