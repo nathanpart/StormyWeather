@@ -16,20 +16,13 @@ import teamtreehouse.com.stormy.weather.Current;
 import teamtreehouse.com.stormy.weather.Forecast;
 
 public class TabletFragment extends Fragment implements DataUpdate {
+    private static final String CURRENT_FRAGMENT = "current_forecast_fragment";
     private static final String HOURLY_FRAGMENT = "hourly_forecast_fragment";
     private static final String DAILY_FRAGMENT = "daily_forecast_fragment";
 
     private DataUpdate mHourlyUpdate;
     private DataUpdate mDailyUpdate;
-
-    private TextView mTimeLabel;
-    private TextView mTemperatureLabel;
-    private TextView mHumidityValue;
-    private TextView mPrecipValue;
-    private TextView mSummaryLabel;
-    private ImageView mIconImageView;
-
-    private Current mCurrent;
+    private DataUpdate mCurrentUpdate;
 
     public TabletFragment() {
         // Required empty public constructor
@@ -47,22 +40,20 @@ public class TabletFragment extends Fragment implements DataUpdate {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tablet, container, false);
 
-        mTimeLabel = view.findViewById(R.id.timeLabel);
-        mTemperatureLabel = view.findViewById(R.id.temperatureLabel);
-        mHumidityValue = view.findViewById(R.id.humidityValue);
-        mPrecipValue = view.findViewById(R.id.precipValue);
-        mSummaryLabel = view.findViewById(R.id.summaryLabel);
-        mIconImageView = view.findViewById(R.id.iconImageView);
-
-        if (savedInstanceState != null) {
-            mCurrent = savedInstanceState.getParcelable("current");
-        }
-
-        if (mCurrent != null) {
-            updateViews();
-        }
-
         FragmentManager fragmentManager = getChildFragmentManager();
+
+        CurrentForecastFragment savedCurrentFragment = (CurrentForecastFragment) fragmentManager
+                .findFragmentByTag(CURRENT_FRAGMENT);
+        if (savedCurrentFragment == null) {
+            CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
+            fragmentManager.beginTransaction()
+                    .add(R.id.topPlaceholder, currentForecastFragment, CURRENT_FRAGMENT)
+                    .commit();
+            mCurrentUpdate = currentForecastFragment;
+        } else {
+            mCurrentUpdate = savedCurrentFragment;
+        }
+
 
         HourlyForecastFragment savedHourlyFragment = (HourlyForecastFragment) fragmentManager
                 .findFragmentByTag(HOURLY_FRAGMENT);
@@ -91,27 +82,16 @@ public class TabletFragment extends Fragment implements DataUpdate {
         return view;
     }
 
-    private void updateViews() {
-        mTemperatureLabel.setText(mCurrent.getTemperature() + "");
-        mTimeLabel.setText("At " + mCurrent.getFormattedTime() + " it will be");
-        mHumidityValue.setText(mCurrent.getHumidity() + "");
-        mPrecipValue.setText(mCurrent.getPrecipChance() + "%");
-        mSummaryLabel.setText(mCurrent.getSummary());
 
-        Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
-        mIconImageView.setImageDrawable(drawable);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("current", mCurrent);
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        outState.putParcelable("current", mCurrent);
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     public void onDataUpdate(Forecast forecast) {
-        mCurrent = forecast.getCurrent();
-        updateViews();
+        mCurrentUpdate.onDataUpdate(forecast);
         mHourlyUpdate.onDataUpdate(forecast);
         mDailyUpdate.onDataUpdate(forecast);
     }
