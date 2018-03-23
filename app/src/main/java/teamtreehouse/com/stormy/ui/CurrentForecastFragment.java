@@ -59,14 +59,17 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
     }
 
     private void updateViews() {
-        mTemperatureLabel.setText(mCurrent.getTemperature() + "");
-        mTimeLabel.setText("At " + mCurrent.getFormattedTime() + " it will be");
-        mHumidityValue.setText(mCurrent.getHumidity() + "");
-        mPrecipValue.setText(mCurrent.getPrecipChance() + "%");
-        mSummaryLabel.setText(mCurrent.getSummary());
 
-        Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
-        mIconImageView.setImageDrawable(drawable);
+        if (mTemperatureLabel != null) {
+            mTemperatureLabel.setText(mCurrent.getTemperature() + "");
+            mTimeLabel.setText("At " + mCurrent.getFormattedTime() + " it will be");
+            mHumidityValue.setText(mCurrent.getHumidity() + "");
+            mPrecipValue.setText(mCurrent.getPrecipChance() + "%");
+            mSummaryLabel.setText(mCurrent.getSummary());
+
+            Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
+            mIconImageView.setImageDrawable(drawable);
+        }
     }
 
     @Override

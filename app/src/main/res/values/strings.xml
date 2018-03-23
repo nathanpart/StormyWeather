@@ -14,7 +14,4 @@
     <string name="api_key">cae0a6d31ecaa0b5b9babc5e42abc15e</string>
     <string name="weather_url">https://api.forecast.io/forecast/%s/%f,%f</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
