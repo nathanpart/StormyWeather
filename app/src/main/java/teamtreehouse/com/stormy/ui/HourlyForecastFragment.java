@@ -51,6 +51,7 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
 
         mRecyclerView.setHasFixedSize(true);
 
+        ((GetData) getActivity()).fetchData();
         return view;
     }
 

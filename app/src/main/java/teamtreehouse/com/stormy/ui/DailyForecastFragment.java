@@ -66,6 +66,7 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
             }
         });
 
+        ((GetData) getActivity()).fetchData();
         return view;
     }
 

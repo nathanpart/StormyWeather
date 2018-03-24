@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import teamtreehouse.com.stormy.R;
 import teamtreehouse.com.stormy.weather.Forecast;
 
-public class TabletFragment extends Fragment implements DataUpdate {
-    private static final String CURRENT_FRAGMENT = "current_forecast_fragment";
+public class DualPaneFragment extends Fragment implements DataUpdate {
     private static final String HOURLY_FRAGMENT = "hourly_forecast_fragment";
     private static final String DAILY_FRAGMENT = "daily_forecast_fragment";
 
@@ -20,12 +19,12 @@ public class TabletFragment extends Fragment implements DataUpdate {
     private DataUpdate mDailyUpdate;
     private DataUpdate mCurrentUpdate;
 
-    public TabletFragment() {
+    public DualPaneFragment() {
         // Required empty public constructor
     }
 
-    public static TabletFragment newInstance() {
-        TabletFragment fragment = new TabletFragment();
+    public static DualPaneFragment newInstance() {
+        DualPaneFragment fragment = new DualPaneFragment();
         return fragment;
     }
 
@@ -37,19 +36,6 @@ public class TabletFragment extends Fragment implements DataUpdate {
         View view = inflater.inflate(R.layout.fragment_tablet, container, false);
 
         FragmentManager fragmentManager = getChildFragmentManager();
-
-        CurrentForecastFragment savedCurrentFragment = (CurrentForecastFragment) fragmentManager
-                .findFragmentByTag(CURRENT_FRAGMENT);
-        if (savedCurrentFragment == null) {
-            CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
-            fragmentManager.beginTransaction()
-                    .add(R.id.topPlaceholder, currentForecastFragment, CURRENT_FRAGMENT)
-                    .commit();
-            mCurrentUpdate = currentForecastFragment;
-        } else {
-            mCurrentUpdate = savedCurrentFragment;
-        }
-
 
         HourlyForecastFragment savedHourlyFragment = (HourlyForecastFragment) fragmentManager
                 .findFragmentByTag(HOURLY_FRAGMENT);
@@ -80,8 +66,7 @@ public class TabletFragment extends Fragment implements DataUpdate {
 
     @Override
     public void onDataUpdate(Forecast forecast) {
-        mCurrentUpdate.onDataUpdate(forecast);
-        mHourlyUpdate.onDataUpdate(forecast);
-        mDailyUpdate.onDataUpdate(forecast);
+        if (mHourlyUpdate != null) mHourlyUpdate.onDataUpdate(forecast);
+        if (mDailyUpdate  != null) mDailyUpdate.onDataUpdate(forecast);
     }
 }

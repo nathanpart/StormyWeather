@@ -19,6 +19,7 @@ public class PagerFragment extends Fragment implements DataUpdate {
     private CurrentForecastFragment mCurrentForecastFragment;
     private HourlyForecastFragment mHourlyForecastFragment;
     private DailyForecastFragment mDailyForecastFragment;
+    private DualPaneFragment mDualPaneFragment;
 
     public PagerFragment() {
         // Required empty public constructor
@@ -35,9 +36,13 @@ public class PagerFragment extends Fragment implements DataUpdate {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pager, container, false);
 
+        boolean isLandscape = getActivity().getResources().getBoolean(R.bool.is_landscape);
+        int numberOfPages = isLandscape ? 2 : 3;
+
         mCurrentForecastFragment = CurrentForecastFragment.newInstance();
         mHourlyForecastFragment = HourlyForecastFragment.newInstance();
         mDailyForecastFragment = DailyForecastFragment.newInstance();
+        mDualPaneFragment = DualPaneFragment.newInstance();
 
         ViewPager viewPager = view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
@@ -48,9 +53,10 @@ public class PagerFragment extends Fragment implements DataUpdate {
                         return mCurrentForecastFragment;
 
                     case 1:
-                        return mHourlyForecastFragment;
+                        return isLandscape ? mDualPaneFragment : mHourlyForecastFragment;
 
                     case 2:
+                        // This should only be selected in portrait mode
                         return mDailyForecastFragment;
                 }
                 // We should never get here
@@ -64,7 +70,7 @@ public class PagerFragment extends Fragment implements DataUpdate {
                         return "Current Forecast";
 
                     case 1:
-                        return "Hourly Forecast";
+                        return isLandscape ? "Extended Forecast" : "Hourly Forecast";
 
                     case 2:
                         return "7 Day Forecast";
@@ -75,7 +81,7 @@ public class PagerFragment extends Fragment implements DataUpdate {
 
             @Override
             public int getCount() {
-                return 3;
+                return numberOfPages;
             }
         });
 
@@ -88,8 +94,12 @@ public class PagerFragment extends Fragment implements DataUpdate {
     @Override
     public void onDataUpdate(Forecast forecast) {
         if (mCurrentForecastFragment != null) mCurrentForecastFragment.onDataUpdate(forecast);
-        if (mHourlyForecastFragment != null) mHourlyForecastFragment.onDataUpdate(forecast);
-        if (mDailyForecastFragment != null) mDailyForecastFragment.onDataUpdate(forecast);
+        if (getActivity().getResources().getBoolean(R.bool.is_landscape)) {
+            if (mDualPaneFragment != null) mDualPaneFragment.onDataUpdate(forecast);
+        } else {
+            if (mHourlyForecastFragment != null) mHourlyForecastFragment.onDataUpdate(forecast);
+            if (mDailyForecastFragment != null) mDailyForecastFragment.onDataUpdate(forecast);
+        }
     }
 
 }

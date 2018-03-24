@@ -17,12 +17,13 @@ import teamtreehouse.com.stormy.loaders.WeatherLoader;
 import teamtreehouse.com.stormy.weather.Forecast;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Forecast> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Forecast>, GetData {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
     public static final String FORECAST_FRAGMENT = "forecast_fragment";
+    public static final String DIRECTION = "DIRECTION";
 
     private ImageView mRefreshImageView;
     private ProgressBar mProgressBar;
@@ -31,14 +32,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private double mLatitude;
     private double mLongitude;
 
+    private boolean mCurrentDirection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
-
         if (!isTablet) {
+            boolean isLandscape = getResources().getBoolean(R.bool.is_landscape);
+            mCurrentDirection = (savedInstanceState == null) ? isLandscape : savedInstanceState.getBoolean(DIRECTION);
+
             PagerFragment savedFragment = (PagerFragment) getSupportFragmentManager()
                     .findFragmentByTag(FORECAST_FRAGMENT);
             if (savedFragment == null) {
@@ -48,8 +53,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 fragmentTransaction.add(R.id.placeholder, fragment, FORECAST_FRAGMENT);
                 fragmentTransaction.commit();
                 mDataUpdate = fragment;
+                mCurrentDirection = isLandscape;
             } else {
                 mDataUpdate = savedFragment;
+                if (mCurrentDirection != isLandscape) {
+                    PagerFragment fragment = PagerFragment.newInstance();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.placeholder, fragment, FORECAST_FRAGMENT);
+                    fragmentTransaction.commit();
+                    mDataUpdate = fragment;
+                    mCurrentDirection = isLandscape;
+                }
             }
         } else {
             TabletFragment savedFragment = (TabletFragment) getSupportFragmentManager()
@@ -80,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
        getSupportLoaderManager().initLoader(0, null, this);
 
         Log.d(TAG, "Main UI code is running!");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(DIRECTION, mCurrentDirection);
+        super.onSaveInstanceState(outState);
     }
 
     private void setRefreshIndicator(boolean showProgressBar) {
@@ -122,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Forecast> loader) {
 
+    }
+
+    // Callback for fragments to request that the loader data be sent to them
+    @Override
+    public void fetchData() {
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 }
 
