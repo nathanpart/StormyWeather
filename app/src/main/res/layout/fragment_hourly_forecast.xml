@@ -5,11 +5,7 @@
 
                 android:background="@drawable/bg_gradient"
                 android:paddingBottom="16dp"
-                android:paddingEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingStart="10dp"
-                tools:context="teamtreehouse.com.stormy.ui.HourlyForecastActivity">
+                tools:context="teamtreehouse.com.stormy.ui.HourlyForecastFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reyclerView"

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import teamtreehouse.com.stormy.R;
@@ -23,6 +24,7 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
     private TextView mSummaryLabel;
     private ImageView mIconImageView;
     private Current mCurrent;
+    private View mView;
 
 
     public CurrentForecastFragment() {
@@ -38,15 +40,15 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_current, container, false);
+        mView = inflater.inflate(R.layout.fragment_current, container, false);
 
 
-        mTimeLabel = view.findViewById(R.id.timeLabel);
-        mTemperatureLabel = view.findViewById(R.id.temperatureLabel);
-        mHumidityValue = view.findViewById(R.id.humidityValue);
-        mPrecipValue = view.findViewById(R.id.precipValue);
-        mSummaryLabel = view.findViewById(R.id.summaryLabel);
-        mIconImageView = view.findViewById(R.id.iconImageView);
+        mTimeLabel = mView.findViewById(R.id.timeLabel);
+        mTemperatureLabel = mView.findViewById(R.id.temperatureLabel);
+        mHumidityValue = mView.findViewById(R.id.humidityValue);
+        mPrecipValue = mView.findViewById(R.id.precipValue);
+        mSummaryLabel = mView.findViewById(R.id.summaryLabel);
+        mIconImageView = mView.findViewById(R.id.iconImageView);
 
         if (savedInstanceState != null) {
             mCurrent = savedInstanceState.getParcelable("current");
@@ -55,7 +57,7 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
         if (mCurrent != null) {
             updateViews();
         }
-        return view;
+        return mView;
     }
 
     private void updateViews() {
@@ -81,6 +83,11 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
     @Override
     public void onDataUpdate(Forecast forecast) {
         mCurrent = forecast.getCurrent();
+
+        // Only do it on the phones which are using a relative layout base.
+        if (mView != null && mView instanceof RelativeLayout) {
+            mView.setBackgroundDrawable(forecast.getGradient(getActivity()));
+        }
         updateViews();
     }
 

@@ -1,5 +1,7 @@
 package teamtreehouse.com.stormy.weather;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -97,6 +99,16 @@ public class Forecast implements Parcelable {
 
         return iconId;
 
+    }
+
+    public Drawable getGradient(Context context) {
+        int temp = mCurrent.getTemperature();
+
+        int scaledTemp = (temp + 20) / 20;   // Each gradient covers 20deg range staring at -20
+        if (scaledTemp > 6) scaledTemp = 6;
+        if (scaledTemp < 0) scaledTemp = 0;
+
+        return context.getResources().obtainTypedArray(R.array.gradient_list).getDrawable(scaledTemp);
     }
 
     @Override

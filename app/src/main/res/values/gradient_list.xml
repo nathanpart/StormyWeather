@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="gradient_list">
+        <item>@drawable/frozen_stiff</item>
+        <item>@drawable/freezing</item>
+        <item>@drawable/cold</item>
+        <item>@drawable/cool</item>
+        <item>@drawable/warm</item>
+        <item>@drawable/hot</item>
+        <item>@drawable/very_hot</item>
+    </array>
+</resources>

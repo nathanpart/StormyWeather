@@ -13,5 +13,6 @@
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
     <string name="api_key">cae0a6d31ecaa0b5b9babc5e42abc15e</string>
     <string name="weather_url">https://api.forecast.io/forecast/%s/%f,%f</string>
+    <string name="refresh">refresh</string>
 
 </resources>

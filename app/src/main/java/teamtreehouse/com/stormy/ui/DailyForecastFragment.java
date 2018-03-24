@@ -25,6 +25,7 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
     private ListView mListView;
     private TextView mEmptyTextView;
     private DayAdapter mAdapter;
+    private View mView;
 
     public DailyForecastFragment() {
         // Required empty public constructor
@@ -39,14 +40,14 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_daily_forecast, container, false);
+        mView = inflater.inflate(R.layout.fragment_daily_forecast, container, false);
 
         if (savedInstanceState != null) {
             mDays = (Day[]) savedInstanceState.getParcelableArray("day");
         }
 
-        mListView = view.findViewById(android.R.id.list);
-        mEmptyTextView = view.findViewById(android.R.id.empty);
+        mListView = mView.findViewById(android.R.id.list);
+        mEmptyTextView = mView.findViewById(android.R.id.empty);
 
         mAdapter = new DayAdapter(getActivity(), mDays);
         mListView.setAdapter(mAdapter);
@@ -67,7 +68,7 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
         });
 
         ((GetData) getActivity()).fetchData();
-        return view;
+        return mView;
     }
 
     @Override
@@ -79,6 +80,7 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
     @Override
     public void onDataUpdate(Forecast forecast) {
         mDays = forecast.getDailyForecast();
+        if (mView != null) mView.setBackgroundDrawable(forecast.getGradient(getActivity()));
         if (mAdapter != null) mAdapter.updateData(mDays);
     }
 }

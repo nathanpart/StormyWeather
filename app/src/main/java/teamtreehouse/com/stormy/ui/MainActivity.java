@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import teamtreehouse.com.stormy.R;
@@ -34,10 +35,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private boolean mCurrentDirection;
 
+    // Layout parent for main activity
+    private RelativeLayout mMainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMainLayout = findViewById(R.id.main);
 
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         if (!isTablet) {
@@ -136,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         Toast.LENGTH_LONG).show();
             }
         } else {
+            mMainLayout.setBackgroundDrawable(data.getGradient(this));
             mDataUpdate.onDataUpdate(data);
         }
     }

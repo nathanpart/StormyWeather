@@ -20,6 +20,7 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
 
     private RecyclerView mRecyclerView;
     private HourAdapter mAdapter;
+    private View mView;
 
 
     public HourlyForecastFragment() {
@@ -35,13 +36,13 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
+        mView = inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
 
         if (savedInstanceState != null) {
             mHours = (Hour[]) savedInstanceState.getParcelableArray("hours");
         }
 
-        mRecyclerView = view.findViewById(R.id.reyclerView);
+        mRecyclerView = mView.findViewById(R.id.reyclerView);
 
         mAdapter = new HourAdapter(getActivity(), mHours);
         mRecyclerView.setAdapter(mAdapter);
@@ -52,7 +53,7 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
         mRecyclerView.setHasFixedSize(true);
 
         ((GetData) getActivity()).fetchData();
-        return view;
+        return mView;
     }
 
     @Override
@@ -64,6 +65,7 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
     @Override
     public void onDataUpdate(Forecast forecast) {
         mHours = forecast.getHourlyForecast();
+        if (mView != null) mView.setBackgroundDrawable(forecast.getGradient(getActivity()));
         if (mAdapter != null) mAdapter.updateData(mHours);
     }
 }
