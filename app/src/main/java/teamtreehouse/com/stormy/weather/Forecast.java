@@ -9,7 +9,10 @@ import teamtreehouse.com.stormy.R;
 
 /**
  * Created by benjakuben on 2/5/15.
+ * Update by partridgenathan on 3/23/18 to implement parcleble interface and to fetch the
+ * proper gradient to show.
  */
+
 public class Forecast implements Parcelable {
     private Current mCurrent;
     private Hour[] mHourlyForecast;
@@ -101,12 +104,14 @@ public class Forecast implements Parcelable {
 
     }
 
+    // Get gradient drawable from resources depending on current temperature
     public Drawable getGradient(Context context) {
         int temp = mCurrent.getTemperature();
 
+        // scale the temperature into 7 that are 20deg apart
         int scaledTemp = (temp + 20) / 20;   // Each gradient covers 20deg range staring at -20
-        if (scaledTemp > 6) scaledTemp = 6;
-        if (scaledTemp < 0) scaledTemp = 0;
+        if (scaledTemp > 6) scaledTemp = 6;  // Top temp handle every thing above
+        if (scaledTemp < 0) scaledTemp = 0;  // Bottom temp handles everything below
 
         return context.getResources().obtainTypedArray(R.array.gradient_list).getDrawable(scaledTemp);
     }

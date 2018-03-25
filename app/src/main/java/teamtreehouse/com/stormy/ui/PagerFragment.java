@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import teamtreehouse.com.stormy.R;
 import teamtreehouse.com.stormy.weather.Forecast;
 
+
+// Used by small devices to select which fragment page to view
+// It adjusts to the orientation, to make use of the width of landscape
 public class PagerFragment extends Fragment implements DataUpdate {
 
     private Forecast mForecast;
@@ -36,6 +39,8 @@ public class PagerFragment extends Fragment implements DataUpdate {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pager, container, false);
 
+        // We only have two pages in landscape becuase the list views are display along side each
+        // other
         boolean isLandscape = getActivity().getResources().getBoolean(R.bool.is_landscape);
         int numberOfPages = isLandscape ? 2 : 3;
 
@@ -53,10 +58,12 @@ public class PagerFragment extends Fragment implements DataUpdate {
                         return mCurrentForecastFragment;
 
                     case 1:
+                        // In landscape it the page of the list view, in portrait it is the hourly
+                        // forecast.
                         return isLandscape ? mDualPaneFragment : mHourlyForecastFragment;
 
                     case 2:
-                        // This should only be selected in portrait mode
+                        // This page is only available in portrait and is the daily forecast
                         return mDailyForecastFragment;
                 }
                 // We should never get here
@@ -92,6 +99,7 @@ public class PagerFragment extends Fragment implements DataUpdate {
     }
 
     @Override
+    // Pass new data to the displayable pages
     public void onDataUpdate(Forecast forecast) {
         if (mCurrentForecastFragment != null) mCurrentForecastFragment.onDataUpdate(forecast);
         if (getActivity().getResources().getBoolean(R.bool.is_landscape)) {

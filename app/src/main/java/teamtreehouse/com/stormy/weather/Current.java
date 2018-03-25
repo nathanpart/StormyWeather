@@ -9,6 +9,8 @@ import java.util.TimeZone;
 
 /**
  * Created by benjakuben on 12/8/14.
+ *
+ * Update by partridgenathan on 3/23/18 to implement parcleble interface
  */
 public class Current implements Parcelable{
     private String mIcon;

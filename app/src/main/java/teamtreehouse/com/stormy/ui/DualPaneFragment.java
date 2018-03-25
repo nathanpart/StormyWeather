@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import teamtreehouse.com.stormy.R;
 import teamtreehouse.com.stormy.weather.Forecast;
 
+// Fragment that uses landscapes wider width to display the hourly and daily weather lists in
+// two columns
 public class DualPaneFragment extends Fragment implements DataUpdate {
     private static final String HOURLY_FRAGMENT = "hourly_forecast_fragment";
     private static final String DAILY_FRAGMENT = "daily_forecast_fragment";

@@ -13,6 +13,13 @@ import teamtreehouse.com.stormy.R;
 import teamtreehouse.com.stormy.weather.Current;
 import teamtreehouse.com.stormy.weather.Forecast;
 
+
+// This fragment displays the current forecast information - it has three layouts automatically
+// selected by android depending on current screen conditions.
+//
+// The default layout is used when a small device in portrait
+// w600dp layout is used on small device in landscape, minWidth<600dp, but current Width isn't
+// sw600dp layout is used when min width is at least 600dp, (a tablet)
 public class CurrentForecastFragment extends Fragment implements DataUpdate {
     private TextView mTimeLabel;
     private TextView mTemperatureLabel;
@@ -86,6 +93,7 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
         super.onSaveInstanceState(outState);
     }
 
+    // Update data coming in from loader in the activity
     @Override
     public void onDataUpdate(Forecast forecast) {
         if (getActivity() != null) {

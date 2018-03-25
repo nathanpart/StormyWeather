@@ -14,6 +14,7 @@ import teamtreehouse.com.stormy.weather.Hour;
 
 /**
  * Created by benjakuben on 2/10/15.
+ * Updated by partridgenathan on 3/23/18 to handle refresh data
  */
 public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
 
@@ -43,6 +44,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         return mHours.length;
     }
 
+    // Store new data and notify
     public void updateData(Hour[] hours) {
         mHours = hours;
         notifyDataSetChanged();

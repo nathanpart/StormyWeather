@@ -46,7 +46,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mMainLayout = findViewById(R.id.main);
 
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+
+        // If we are smaller than tablet size
         if (!isTablet) {
+            // If device has been rotated isLandscape will not equal mCurrentDirection
             boolean isLandscape = getResources().getBoolean(R.bool.is_landscape);
             mCurrentDirection = (savedInstanceState == null) ? isLandscape : savedInstanceState.getBoolean(DIRECTION);
 
@@ -62,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mCurrentDirection = isLandscape;
             } else {
                 mDataUpdate = savedFragment;
+
+                // If a rotation has occurred, we reload the pager fragment, as it needs to
+                // rebuild itself to take into consideration the new orientation
                 if (mCurrentDirection != isLandscape) {
                     PagerFragment fragment = PagerFragment.newInstance();
                     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     mCurrentDirection = isLandscape;
                 }
             }
+
+        // If tablet use the fragment that handles its layout
         } else {
             TabletFragment savedFragment = (TabletFragment) getSupportFragmentManager()
                     .findFragmentByTag(FORECAST_FRAGMENT);
@@ -95,9 +103,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mLatitude = 37.8267;
         mLongitude = -122.423;
 
+        // Refresh button just has loader restart and get new data.
         mRefreshImageView.setOnClickListener(v -> getSupportLoaderManager()
                 .restartLoader(0, null, this));
 
+       // Start loader
        getSupportLoaderManager().initLoader(0, null, this);
 
         Log.d(TAG, "Main UI code is running!");
@@ -109,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onSaveInstanceState(outState);
     }
 
+    // Progress on/off switch - true on, false off
     private void setRefreshIndicator(boolean showProgressBar) {
         if (showProgressBar) {
             mProgressBar.setVisibility(View.VISIBLE);
@@ -136,12 +147,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setRefreshIndicator(false);
         if (data == null) {
             if (loader instanceof WeatherLoader && ((WeatherLoader) loader).isNetworkUp()) {
+                // If no data and network is up, then we had a communication problem
                 alertUserAboutError();
             } else {
+                // This case if network is just unavailable (e.g. airplane mode)
                 Toast.makeText(this, getString(R.string.network_unavailable_message),
                         Toast.LENGTH_LONG).show();
             }
         } else {
+            // Set the background gradient for the current temperature and pass data to
+            // hte fragments.
             mMainLayout.setBackgroundDrawable(data.getGradient(this));
             mDataUpdate.onDataUpdate(data);
         }
@@ -152,7 +167,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    // Callback for fragments to request that the loader data be sent to them
+    // Callback for fragments to request that data be sent to them. Simple, we just let the loader
+    // do its thing as it caches the weather data.
     @Override
     public void fetchData() {
         getSupportLoaderManager().initLoader(0, null, this);

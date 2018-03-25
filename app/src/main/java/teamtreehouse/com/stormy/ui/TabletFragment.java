@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import teamtreehouse.com.stormy.R;
 import teamtreehouse.com.stormy.weather.Forecast;
 
+// Tablet layout - current weather at top with hourly and daily forecast lists in two columns below
+// using three child fragment panes
 public class TabletFragment extends Fragment implements DataUpdate {
     private static final String CURRENT_FRAGMENT = "current_forecast_fragment";
     private static final String HOURLY_FRAGMENT = "hourly_forecast_fragment";
@@ -38,6 +40,7 @@ public class TabletFragment extends Fragment implements DataUpdate {
 
         FragmentManager fragmentManager = getChildFragmentManager();
 
+        // Current weather forecast fragment
         CurrentForecastFragment savedCurrentFragment = (CurrentForecastFragment) fragmentManager
                 .findFragmentByTag(CURRENT_FRAGMENT);
         if (savedCurrentFragment == null) {
@@ -50,7 +53,7 @@ public class TabletFragment extends Fragment implements DataUpdate {
             mCurrentUpdate = savedCurrentFragment;
         }
 
-
+        // Hourly forecast fragment
         HourlyForecastFragment savedHourlyFragment = (HourlyForecastFragment) fragmentManager
                 .findFragmentByTag(HOURLY_FRAGMENT);
         if (savedHourlyFragment == null) {
@@ -63,6 +66,7 @@ public class TabletFragment extends Fragment implements DataUpdate {
             mHourlyUpdate = savedHourlyFragment;
         }
 
+        // Daily forecast fragment
         DailyForecastFragment savedDailyFragment = (DailyForecastFragment) fragmentManager
                 .findFragmentByTag(DAILY_FRAGMENT);
         if (savedDailyFragment == null) {
@@ -78,6 +82,7 @@ public class TabletFragment extends Fragment implements DataUpdate {
         return view;
     }
 
+    // Pass the new data to the children
     @Override
     public void onDataUpdate(Forecast forecast) {
         mCurrentUpdate.onDataUpdate(forecast);

@@ -1,8 +1,6 @@
 package teamtreehouse.com.stormy.ui;
 
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +16,7 @@ import teamtreehouse.com.stormy.adapters.DayAdapter;
 import teamtreehouse.com.stormy.weather.Day;
 import teamtreehouse.com.stormy.weather.Forecast;
 
+// The daily forecast List View
 public class DailyForecastFragment extends Fragment implements DataUpdate {
 
     private Day[] mDays;
@@ -77,6 +76,7 @@ public class DailyForecastFragment extends Fragment implements DataUpdate {
         super.onSaveInstanceState(outState);
     }
 
+    // Handle new data by sending it the adapter
     @Override
     public void onDataUpdate(Forecast forecast) {
         mDays = forecast.getDailyForecast();

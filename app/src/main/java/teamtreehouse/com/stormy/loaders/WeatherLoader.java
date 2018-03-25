@@ -30,6 +30,7 @@ public class WeatherLoader extends AsyncTaskLoader<Forecast> {
     private final double mLogitude;
     private Forecast mForecast;
 
+    // Storage of the network state
     private boolean mNetworkUp;
 
     public WeatherLoader(Context context, double latitude, double longitude) {
@@ -50,6 +51,7 @@ public class WeatherLoader extends AsyncTaskLoader<Forecast> {
 
     @Override
     protected void onForceLoad() {
+        // Check the state of the network
         mNetworkUp = isNetworkAvailable();
         super.onForceLoad();
     }

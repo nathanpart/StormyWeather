@@ -14,6 +14,7 @@ import teamtreehouse.com.stormy.adapters.HourAdapter;
 import teamtreehouse.com.stormy.weather.Forecast;
 import teamtreehouse.com.stormy.weather.Hour;
 
+// Fragment that shows the hourly Recycler view
 public class HourlyForecastFragment extends Fragment implements DataUpdate {
 
     private Hour[] mHours;
@@ -62,6 +63,7 @@ public class HourlyForecastFragment extends Fragment implements DataUpdate {
         super.onSaveInstanceState(outState);
     }
 
+    // Send new data to the adapter, and adjust background
     @Override
     public void onDataUpdate(Forecast forecast) {
         mHours = forecast.getHourlyForecast();

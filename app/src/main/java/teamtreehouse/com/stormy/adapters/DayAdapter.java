@@ -13,6 +13,7 @@ import teamtreehouse.com.stormy.weather.Day;
 
 /**
  * Created by benjakuben on 2/6/15.
+ * Updated by partridgenathan on 3/23/18 to handle data refresh
  */
 public class DayAdapter extends BaseAdapter {
 
@@ -72,7 +73,7 @@ public class DayAdapter extends BaseAdapter {
         return convertView;
     }
 
-
+    // Store new data and notify of change
     public void updateData(Day[] dailyForecasts) {
         mDays = dailyForecasts;
         notifyDataSetChanged();
