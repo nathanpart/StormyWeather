@@ -1,28 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@drawable/bg_gradient"
               android:orientation="horizontal"
               android:weightSum="100"
-              tools:background="@drawable/bg_gradient"
               tools:context=".ui.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="50"
-        android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50">
 
         <TextView
             android:id="@+id/temperatureLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:text="--"
             android:textColor="@android:color/white"
-            android:textSize="100sp"
+            android:textSize="150sp"
             tools:text="100"/>
 
         <ImageView
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/temperatureLabel"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/temperatureLabel"
             android:layout_toRightOf="@+id/temperatureLabel"
             android:src="@drawable/degree"/>
@@ -39,68 +38,46 @@
             android:id="@+id/timeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/degreeImageView"
             android:layout_centerHorizontal="true"
             android:text="..."
             android:textColor="#70000000"
             android:textSize="18sp"/>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_weight="50"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="50">
+
+        <TextView
+            android:id="@+id/locationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Alcatraz Island, CA"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"/>
+
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/humidityPrecLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/cloudy_night"/>
 
         <LinearLayout
+            android:id="@+id/humidityPrecLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/locationLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                android:text="Alcatraz Island, CA"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iconImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:src="@drawable/cloudy_night"/>
-
-
-                <TextView
-                    android:id="@+id/summaryLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="#ffffffff"
-                    android:textSize="18sp"
-                    tools:text="Partly Cloudy"/>
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationLabel"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="100">
@@ -124,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="10%"
+                    android:text="--"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"/>
             </LinearLayout>
@@ -148,11 +125,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="1.5"
+                    android:text="--"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"/>
             </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/summaryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iconImageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Getting current weather..."
+            android:textColor="@android:color/white"
+            android:textSize="18dp"/>
+    </RelativeLayout>
 </LinearLayout>

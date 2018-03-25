@@ -1,15 +1,12 @@
 package teamtreehouse.com.stormy.ui;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import teamtreehouse.com.stormy.R;
@@ -25,6 +22,7 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
     private ImageView mIconImageView;
     private Current mCurrent;
     private View mView;
+    private Drawable mGradient;
 
 
     public CurrentForecastFragment() {
@@ -56,6 +54,9 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
 
         if (mCurrent != null) {
             updateViews();
+        } else {
+            // Request data to be sent to us
+            ((GetData) getActivity()).fetchData();
         }
         return mView;
     }
@@ -71,6 +72,11 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
 
             Drawable drawable = getResources().getDrawable(mCurrent.getIconId());
             mIconImageView.setImageDrawable(drawable);
+
+            // If not a tablet, update the background gradient
+            if (!getActivity().getResources().getBoolean(R.bool.is_tablet)) {
+                mView.setBackgroundDrawable(mGradient);
+            }
         }
     }
 
@@ -82,13 +88,11 @@ public class CurrentForecastFragment extends Fragment implements DataUpdate {
 
     @Override
     public void onDataUpdate(Forecast forecast) {
-        mCurrent = forecast.getCurrent();
-
-        // Only do it on the phones which are using a relative layout base.
-        if (mView != null && mView instanceof RelativeLayout) {
-            mView.setBackgroundDrawable(forecast.getGradient(getActivity()));
+        if (getActivity() != null) {
+            mCurrent = forecast.getCurrent();
+            mGradient = forecast.getGradient(getActivity());
+            updateViews();
         }
-        updateViews();
     }
 
 }
